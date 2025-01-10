@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: distcc
-  namespace: distcc
+  namespace: default
 spec:
   replicas: 6  # Number of distcc containers
   selector:
