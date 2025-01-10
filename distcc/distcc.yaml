@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: distcc
+  namespace: distcc
+spec:
+  replicas: 6  # Number of distcc containers
+  selector:
+    matchLabels:
+      app: distcc
+  template:
+    metadata:
+      labels:
+        app: distcc
+    spec:
+      containers:
+        - name: distcc
+          image: gentoo/distcc:latest
+          ports:
+            - containerPort: 3632
+          env:
+            - name: DISTCC_ALLOW_HOSTS
+              value: "0.0.0.0/0"  # Replace with your desired network range
+          resources:
+            limits:
+              cpu: "1"
+              memory: "4Gi"  # Limit to 4 GB per container
+            requests:
+              cpu: "1"
+              memory: "2Gi"  # Minimum request per container
