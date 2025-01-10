@@ -4,7 +4,7 @@ metadata:
   name: distcc
   namespace: default
 spec:
-  replicas: 6  # Number of distcc containers
+  replicas: 6  # Based on available cores and RAM
   selector:
     matchLabels:
       app: distcc
@@ -15,16 +15,16 @@ spec:
     spec:
       containers:
         - name: distcc
-          image: gentoo/distcc:latest
+          image: ksmanis/gentoo-distcc:tcp
           ports:
             - containerPort: 3632
           env:
             - name: DISTCC_ALLOW_HOSTS
-              value: "0.0.0.0/0"  # Replace with your desired network range
+              value: "192.168.0.0/16"  # Allow only LAN connections
           resources:
             limits:
-              cpu: "1"
-              memory: "4Gi"  # Limit to 4 GB per container
+              cpu: "1"     # Limit each container to 1 core
+              memory: "4Gi"  # Allocate 4GB memory per container
             requests:
               cpu: "1"
-              memory: "2Gi"  # Minimum request per container
+              memory: "2Gi"
